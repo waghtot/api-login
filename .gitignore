@@ -2,3 +2,4 @@
 app/core/
 vendor/
 composer.json
+.gitignore

@@ -14,14 +14,7 @@ class Controller
     // section setter
     public function setRequest()
     {
-        if(isset($_POST['request']))
-        {
-            $this->request = new stdClass(); 
-            $this->request = json_decode($_POST['request']);
-        }else{
-            $this->request = false;
-        }
-
+        $this->request = json_decode(file_get_contents('php://input'));
     }
 
     public function setData(){

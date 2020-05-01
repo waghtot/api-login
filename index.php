@@ -6,3 +6,4 @@ require_once('vendor/autoload.php');
 new ScurityCheck();
 
 new Master();
+ob_flush();

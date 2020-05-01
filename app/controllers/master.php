@@ -25,7 +25,9 @@ class Master extends Controller
                     case 'Login';
                         if($this->verifyData()!==false)
                         {
-                            $response = $this->logUser();
+                            return $this->logUser();
+                        }else{
+                            $response = false;
                         }
                     break;
                 }
@@ -43,14 +45,65 @@ class Master extends Controller
         $data->action = 'Login';
         $data->params = $this->getRequest()->params;
 
-        $res = API_model::doAPI($data);
-        error_log('show verify response: '.print_r($res, 1));
-        return $res;
+        $res = json_decode(API_model::doAPI($data));
+        
+        // error_log('show verify response: '.print_r($res, 1));
+
+        foreach($res as $key=>$value)
+        {
+            if(empty($value)){
+                return false;
+            }
+        }
+
+        return true;
         
     }
 
     private function logUser()
     {
-        error_log('we are about login user');
+        $data = new stdClass();
+        $data->api = 'database';
+        $data->connection = $this->getRequest()->connection;
+        $data->procedure = $this->getRequest()->procedure;
+        $data->params = $this->getRequest()->params;
+
+        $res = json_decode(API_model::doAPI($data));
+        $resObj = $res[0];
+
+
+        if($resObj->code !== '6000'){
+            echo json_encode($resObj);
+            die;
+        }
+
+
+        // error_log('response database : '.print_r($res[0], 1));
+        // $resObj = new stdClass();
+        // $resObj = json_decode($res[0]);
+
+
+
+        if($resObj->UserStatus !== '3'){
+            echo json_encode($resObj);
+            die;
+        }
+
+        $res = $this->createToken($resObj);
+
+        echo json_encode($res);
+        die;
+    }
+
+    private function createToken($input)
+    {
+        error_log('prepare data to token response here: '.print_r($input, 1));         
+        $data = new stdClass();
+        $data->api = 'token';
+        $data->action = 'Create';
+        $data->UserId = $input->UserID;
+        $data->projectId = $this->getRequest()->params->projectId;
+        $res = json_decode(API_model::doAPI($data));
+        return $res;
     }
 }

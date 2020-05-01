@@ -3,7 +3,6 @@ class API_model extends Controller
 {
     public function doAPI($data)
     {
-
         $api = PREFIX.$data->api.DNS;
         unset($data->api);
         $postData = json_encode($data);

@@ -44,10 +44,7 @@ class Master extends Controller
         $data->api = 'verify';
         $data->action = 'Login';
         $data->params = $this->getRequest()->params;
-
         $res = json_decode(API_model::doAPI($data));
-        
-        // error_log('show verify response: '.print_r($res, 1));
 
         foreach($res as $key=>$value)
         {
@@ -71,18 +68,10 @@ class Master extends Controller
         $res = json_decode(API_model::doAPI($data));
         $resObj = $res[0];
 
-
         if($resObj->code !== '6000'){
             echo json_encode($resObj);
             die;
         }
-
-
-        // error_log('response database : '.print_r($res[0], 1));
-        // $resObj = new stdClass();
-        // $resObj = json_decode($res[0]);
-
-
 
         if($resObj->UserStatus !== '3'){
             echo json_encode($resObj);
@@ -90,7 +79,7 @@ class Master extends Controller
         }
 
         $res = $this->createToken($resObj);
-
+        $res->UserID = $resObj->UserID;
         echo json_encode($res);
         die;
     }

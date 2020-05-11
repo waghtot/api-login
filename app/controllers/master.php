@@ -80,6 +80,7 @@ class Master extends Controller
 
         $res = $this->createToken($resObj);
         $res->UserID = $resObj->UserID;
+        $res->UserStatus = $resObj->UserStatus;
         echo json_encode($res);
         die;
     }

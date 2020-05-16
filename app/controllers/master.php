@@ -44,7 +44,7 @@ class Master extends Controller
         $data->api = 'verify';
         $data->action = 'Login';
         $data->params = $this->getRequest()->params;
-        $res = json_decode(API_model::doAPI($data));
+        $res = json_decode(ApiModel::doAPI($data));
 
         foreach($res as $key=>$value)
         {
@@ -65,7 +65,7 @@ class Master extends Controller
         $data->procedure = $this->getRequest()->procedure;
         $data->params = $this->getRequest()->params;
 
-        $res = json_decode(API_model::doAPI($data));
+        $res = json_decode(ApiModel::doAPI($data));
         $resObj = $res[0];
 
         if($resObj->code !== '6000'){
@@ -93,7 +93,7 @@ class Master extends Controller
         $data->action = 'Create';
         $data->UserId = $input->UserID;
         $data->projectId = $this->getRequest()->params->projectId;
-        $res = json_decode(API_model::doAPI($data));
+        $res = json_decode(ApiModel::doAPI($data));
         return $res;
     }
 }

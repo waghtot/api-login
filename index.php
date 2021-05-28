@@ -1,9 +1,9 @@
 <?php
 ini_set('error_reporting', E_STRICT);
-require_once('app/core/Constants.php');
-require_once('vendor/autoload.php');
+echo "<h1>api-login</h1>";
+require_once('../lib/index.php');
 
-new ScurityCheck();
+new SecurityCheck();
 
 new Master();
 ob_flush();
